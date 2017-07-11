@@ -21,11 +21,10 @@ public class MainController {
 	
     @GetMapping
     public String index(HttpServletRequest request){
-    	//HttpSession session = request.getSession();
     	List<Map<String, Object>> list = categoryService.getAllCategory();
-    	//session.setAttribute("CategoryList", list);
-    	request.setAttribute("CategoryList", list);
     	
-        return "index";
+    	request.setAttribute("CategoryList", list);
+    	request.setAttribute("active", 1);
+        return "mainpage";
     }
 }

@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -37,27 +38,23 @@ public class CategoryDao {
 		 Map<String, Object> params = new HashMap<>();
 		 List<Map<String, Object>> categoryList = null;
 		 try{
-			 categoryList = jdbc.queryForList(ReservationSqls.SELECT_ALL, params);
-		 }catch(Exception e){
-			 categoryList = null;
-			 
-		 }finally{
-			 return categoryList;
+			 categoryList = jdbc.queryForList(ReservationSqls.SELECT_CATEGORY_ALL, params);
+		 }catch(EmptyResultDataAccessException e){
+			 return null;
 		 }
-		 
+		 return categoryList;
 	 }
 	 
-	 public int delete(Long id){
-	        Map<String, ?> params = Collections.singletonMap("id", id);
-	        int state = 0;
-	        try{
-	        	state = jdbc.update(ReservationSqls.DELETE_BY_ID, params);
-	        }catch(Exception e){
-	        	state = 0;
-	        }finally{
-	        	return state;
-	        }
-	        
+	 public Integer delete(Integer id){
+        Map<String, ?> params = Collections.singletonMap("id", id);
+        Integer state = 0;
+        try{
+        	state = jdbc.update(ReservationSqls.DELETE_BY_ID, params);
+        }catch(EmptyResultDataAccessException e){
+        	return 0;
+        }
+        	
+        return state;
 	 }
 	 
 	 
@@ -66,11 +63,11 @@ public class CategoryDao {
 		 long state = 0;
 		 try{
 			 state = insertAction.executeAndReturnKey(params).longValue();
-		 }catch(Exception e){
-			 state = 0;
-		 }finally{
-			 return state;
+		 }catch(EmptyResultDataAccessException e){
+			 return 0;
 		 }
+			
+		 return state;
 	 }
 	
 }

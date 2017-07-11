@@ -22,10 +22,12 @@ public class CategoryService {
 		return categoryDao.selectAll();
 	}
 	
-	public int delete(long i) {
+	@Transactional(readOnly = false)
+	public Integer delete(Integer i) {
         return categoryDao.delete(i);
     }
 	
+	@Transactional(readOnly = false)
 	public long insert(Category category){
 		return categoryDao.insert(category);
 	}
