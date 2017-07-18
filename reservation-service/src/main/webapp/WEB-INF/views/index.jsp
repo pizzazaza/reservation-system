@@ -13,7 +13,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="/add">
+	<form action="/category/form" method="GET">
 		<p>Category 추가 </p>
 		<div>
 	        <label for="cateogry">Category:</label>
@@ -44,20 +44,20 @@
 		
 	</div>
 	<script>
-		
+		//script로 모듈화 하기 
 		function deleteCategory(cid){
-			var deleteUrl = "/delete/"+cid;
+			var deleteUrl = "/category/"+cid;
 			//console.log(deleteUrl);
 			$.ajax({
-				type : "GET",
+				type : "DELETE",
 				url : deleteUrl,
 				//dataType : "json",
 				//data : {id: cid},
 				error : function(err){
-					//console.log(err);
+					console.log(err);
 				},
 				success : function(data){
-					//console.log(data);
+					console.log(data);
 					$('p[value='+cid+']').remove();
 				}
 			});

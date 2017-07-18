@@ -53,7 +53,7 @@ public class CategoryDao {
         }catch(EmptyResultDataAccessException e){
         	return 0;
         }
-        	
+        
         return state;
 	 }
 	 
