@@ -42,10 +42,10 @@ public class MainpageDao {
 	 public List<Map<String, Object>> selectMainPostLimit(Integer limi, Integer ofs, Integer category_id){
 		 Map<String, Object> params = new HashMap<>();
 		 List<Map<String, Object>> postList = null;
-		 
 		 params.put("ofs", ofs);
 		 params.put("limi", limi);
 		 params.put("category_id", category_id);
+		
 		 if(category_id == 0){
 			 try{
 				 postList = jdbc.queryForList(ReservationSqls.SELECT_PRODUCT_LIMIT, params);

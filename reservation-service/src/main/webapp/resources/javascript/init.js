@@ -17,17 +17,11 @@ $(document).ready(function(){
 		location.href="/resources/html/myreservation.html";
 	});
 	
-	var imgbtmborder = $('.img_bg_gra');
 	
-	imgbtmborder.on('click', function(){
-		location.href="/resources/html/detail.html";
-	});
 	
-	var itembook = $('.item_book');
 	
-	itembook.on('click', function(){
-		location.href="/resources/html/detail.html";
-	});
+	
+	
 ///////////////////////////////////////////////////////////
 	
 	
@@ -39,6 +33,36 @@ $(document).ready(function(){
 	
 //////////////////////////////////////////////////////////////
 
+	var viewProductDetail = (function(){
+		var imgbtmborder = $('.img_bg_gra');
+		var itembook = $('.item_book');
+		
+		function bindClickEvent(){
+		
+			imgbtmborder.on('click', function(){
+				var id = $(this).attr('data-item-id');
+				id = id.split('-')[1];
+				console.log(id);
+				location.href="/detail/product_id/"+id;
+			});
+			
+			itembook.on('click', function(){
+				var id = $(this).attr('data-item-id');
+				console.log(id);
+				id = id.split('-')[1];
+				console.log(id);
+				location.href="/detail/product_id/"+id;
+			});
+		}
+		
+		return {
+			bindClickEvent : bindClickEvent
+		}
+	}());
+	
+	viewProductDetail.bindClickEvent();
+	
+	
 	var animateFunc = (function(){
 		
 		var promoMoveIntervalId;
@@ -169,8 +193,6 @@ $(document).ready(function(){
 	var productLoading = (function(){
 		var anchor = $('.anchor');
 		var more_btn = $('.btn');
-		
-		
 		
 		function bindEvent(){
 			anchor.on('click', function(){

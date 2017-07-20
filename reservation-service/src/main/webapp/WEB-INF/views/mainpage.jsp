@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
-
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.security.SecureRandom" %>
+<%@ page import="java.math.BigInteger" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -27,7 +29,16 @@
                     <a href="#" class="lnk_logo" title="네이버"> <span class="spr_bi ico_n_logo">네이버</span> </a>
                     <a href="#" class="lnk_logo" title="예약"> <span class="spr_bi ico_bk_logo">예약</span> </a>
                 </h1>
-                <a href="#" class="btn_my"> <span title="내 예약">MY</span> </a>
+                		<% 
+		String clientid="PWaFcP1RP1p_LliiULjZ"; 
+	String redirecturi=URLEncoder.encode("http://127.0.0.1:8080/login", "utf-8"); 
+	 SecureRandom random = new SecureRandom();
+	 String state = new BigInteger(130, random).toString(32);
+	    
+	String apiurl = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id="+clientid+"&" + "redirecturi="+ redirecturi+"&state="+state;
+	// (String)session.getAttribute("state"); 
+	%>
+                <a href="<%=apiurl %>" class="btn_my"> <span title="내 예약">MY</span> </a>
             </header>
         </div>
         <hr>
@@ -159,7 +170,7 @@
                     <!-- [D] lst_event_box 가 2컬럼으로 좌우로 나뉨, 더보기를 클릭할때마다 좌우 ul에 li가 추가됨 -->
                     <%
                     	List<Map<String, Object>> pList = (List<Map<String, Object>>)request.getAttribute("productList");
-                    	String imgUrl = (String)request.getAttribute("imgUrl");
+                    	//String imgUrl = (String)request.getAttribute("imgUrl");
                     %>
                     <ul class="lst_event_box"><!-- 홀수 -->
                     
@@ -169,8 +180,8 @@
                     %>
                     
                      	<li class="item">
-                            <a href="#" class="item_book">
-                                <div class="item_preview"> <img alt="<%=pList.get(listIndex).get("name")%>" class="img_thumb" src="<%=imgUrl %>"> <span class="img_border"></span> </div>
+                            <a href="#" class="item_book" data-item-id="item-<%=pList.get(listIndex).get("id") %>">
+                                <div class="item_preview"> <img alt="<%=pList.get(listIndex).get("name")%>" class="img_thumb" src="<%=pList.get(listIndex).get("imgUrl") %>"> <span class="img_border"></span> </div>
                                  <div class="event_txt">
                                     <h4 class="event_txt_tit"> <span><%=pList.get(listIndex).get("name") %></span> <small class="sm"><%=pList.get(listIndex).get("place_name") %></small> </h4>
                                     <p class="event_txt_dsc"> <%=pList.get(listIndex).get("description") %> 
@@ -189,9 +200,9 @@
                     		if((listIndex+1)%2 == 0){
                     %>
                     
-                    	<li class="item">
-                            <a href="#" class="item_book">
-                                <div class="item_preview"> <img alt="<%=pList.get(listIndex).get("name")%>" class="img_thumb" src="<%=imgUrl %>"> <span class="img_border"></span> </div>
+                    	<li class="item" >
+                            <a href="#" class="item_book" data-item-id="item-<%=pList.get(listIndex).get("id") %>">
+                                <div class="item_preview"> <img alt="<%=pList.get(listIndex).get("name")%>" class="img_thumb" src="<%=pList.get(listIndex).get("imgUrl") %>"> <span class="img_border"></span> </div>
                                  <div class="event_txt">
                                     <h4 class="event_txt_tit"> <span><%=pList.get(listIndex).get("name") %></span> <small class="sm"><%=pList.get(listIndex).get("place_name") %></small> </h4>
                                     <p class="event_txt_dsc"> <%=pList.get(listIndex).get("description") %> 

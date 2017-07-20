@@ -8,12 +8,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="/resources/javascript/admin.js"></script>
+
 <!--  <script type="text/javascript" src="../javascript/delete.js"></script> -->
+
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="/category/form" method="GET">
+	<form action="/admin/category/form" method="GET">
 		<p>Category 추가 </p>
 		<div>
 	        <label for="cateogry">Category:</label>
@@ -43,34 +46,65 @@
 			%>
 		
 	</div>
-	<script>
-		//script로 모듈화 하기 
-		function deleteCategory(cid){
-			var deleteUrl = "/category/"+cid;
-			//console.log(deleteUrl);
-			$.ajax({
-				type : "DELETE",
-				url : deleteUrl,
-				//dataType : "json",
-				//data : {id: cid},
-				error : function(err){
-					console.log(err);
-				},
-				success : function(data){
-					console.log(data);
-					$('p[value='+cid+']').remove();
-				}
-			});
-			
-		}
+	<div>
+	<!-- file upload -->
+	<select class="modify_product" name="product">
+		<option value="" data-product-id="product_0">이미지를 추가할 product</option>
+		<% 
+			List<Map<String, Object>> pList = (List<Map<String, Object>>)request.getAttribute("ProductList");
+			for(Map<String, Object> product: pList) {
+		%>
+			<option value="<%=product.get("name")%>" data-product-id="product_<%=product.get("id")%>"><%=product.get("name")%></option>
+		<%
+			}
+		%>
 		
-		$(document).on('click', '.categoryList p button',function(){
-			var id = $(this).parent().attr('value');
-			//console.log(id);
-			deleteCategory(id);
-		});
+	</select>
+	<form class="upload_img" method="post" action="/admin/category/file" enctype="multipart/form-data">
+		selected product : <input id="selected_product" type="text" name="product_id" value=""><br>
+	    poster : <input id="post_name" type="text" name="Img_name"><br>
+	    <input id="post_img" type="file" name="Img"><br>
+	    subImg : <input type="text" name="Img_name"><br>
+	    <input type="file" name="Img"><br>
+	    subImg : <input type="text" name="Img_name"><br>
+	    <input type="file" name="Img"><br>
+	    subImg : <input type="text" name="Img_name"><br>
+	    <input type="file" name="Img"><br>
+	    subImg : <input type="text" name="Img_name"><br>
+	    <input type="file" name="Img"><br>
+	    subImg : <input type="text" name="Img_name"><br>
+	    <input type="file" name="Img"><br>
+	    subImg : <input type="text" name="Img_name"><br>
+	    <input type="file" name="Img"><br>
+	    subImg : <input type="text" name="Img_name"><br>
+	    <input type="file" name="Img"><br>
+	    subImg : <input type="text" name="Img_name"><br>
+	    <input type="file" name="Img"><br>
+	    <input id="submit_but" type="submit" value="등록">
+	</form>
+	</div>
+	<br>
+	<div>
+	
+	<select class="comment_product" name="product">
+		<option value="" data-product-id="product_0">이미지를 추가할 product</option>
+		<% 
+			for(Map<String, Object> product: pList) {
+		%>
+			<option value="<%=product.get("name")%>" data-product-id="product_<%=product.get("id")%>"><%=product.get("name")%></option>
+		<%
+			}
+		%>
 		
-		
-	</script>
+	</select>
+	<form class="upload_comment_img" method="post" action="/admin/comment/file" enctype="multipart/form-data">
+		selected product : <input id="selected_comment_product" type="text" name="product_id" value=""><br>
+	    poster : <input id="comment_name" type="text" name="Img_name"><br>
+	    <input id="comment_img" type="file" name="Img">
+	    <br>
+	    <input id="submit_comment_but" type="submit" value="등록">
+	</form>
+	</div>
+
 </body>
 </html>
