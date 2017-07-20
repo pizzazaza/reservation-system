@@ -1,7 +1,9 @@
 package kr.or.connect.reservation.controller;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -103,7 +105,7 @@ public class DetailController {
 		Map<String, Object> productName = detailService.loadProductName(id);
 		
 		JSONObject jsonObj = new JSONObject();
-    	
+		
   
     	JSONArray jsonArray = new JSONArray();
     	for( Map<String, Object> comment : commentList ) {

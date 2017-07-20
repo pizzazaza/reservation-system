@@ -2,7 +2,10 @@
     pageEncoding="UTF-8"%>
     <%@ page import="java.util.List" %>
 	<%@ page import="java.util.Map" %>
-	<%@ page import="java.math.BigDecimal"%>
+	<%@ page import="java.net.URLEncoder" %>
+	<%@ page import="java.security.SecureRandom" %>
+	<%@ page import="java.math.BigInteger" %>
+	<%@ page import="java.math.BigDecimal" %>
 	<%@ page import="java.text.DecimalFormat" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -29,10 +32,10 @@
         <div class="header fade">
             <header class="header_tit">
                 <h1 class="logo">
-                    <a href="#" class="lnk_logo" title="네이버"> <span class="spr_bi ico_n_logo">네이버</span> </a>
-                    <a href="#" class="lnk_logo" title="예약"> <span class="spr_bi ico_bk_logo">예약</span> </a>
+                    <a href="/" class="lnk_logo" title="네이버"> <span class="spr_bi ico_n_logo">네이버</span> </a>
+                    <a href="/" class="lnk_logo" title="예약"> <span class="spr_bi ico_bk_logo">예약</span> </a>
                 </h1>
-                <a href="#" class="btn_my"> <span title="내 예약">MY</span> </a>
+                <a href="http://localhost:8080/login" class="btn_my"> <span title="내 예약">MY</span> </a>
             </header>
         </div>
         <div class="ct main">
@@ -43,7 +46,7 @@
                             <a href="/" class="lnk_logo" title="네이버"> <span class="spr_bi ico_n_logo">네이버</span> </a>
                             <a href="/" class="lnk_logo" title="예약"> <span class="spr_bi ico_bk_logo">예약</span> </a>
                         </h1>
-                        <a href="/resources/html/myreservation.html" class="btn_my"> <span title="내 예약">MY</span> </a>
+                        <a href="http://localhost:8080/login/myreservation" class="btn_my"> <span title="내 예약">MY</span> </a>
                     </header>
                     <%
             			Map<String, Object> imageCount = (Map<String, Object>)request.getAttribute("imageCount");

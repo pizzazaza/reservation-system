@@ -26,19 +26,10 @@
         <div class="header">
             <header class="header_tit">
                 <h1 class="logo">
-                    <a href="#" class="lnk_logo" title="네이버"> <span class="spr_bi ico_n_logo">네이버</span> </a>
-                    <a href="#" class="lnk_logo" title="예약"> <span class="spr_bi ico_bk_logo">예약</span> </a>
+                    <a href="/" class="lnk_logo" title="네이버"> <span class="spr_bi ico_n_logo">네이버</span> </a>
+                    <a href="/" class="lnk_logo" title="예약"> <span class="spr_bi ico_bk_logo">예약</span> </a>
                 </h1>
-                		<% 
-		String clientid="PWaFcP1RP1p_LliiULjZ"; 
-	String redirecturi=URLEncoder.encode("http://127.0.0.1:8080/login", "utf-8"); 
-	 SecureRandom random = new SecureRandom();
-	 String state = new BigInteger(130, random).toString(32);
-	    
-	String apiurl = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id="+clientid+"&" + "redirecturi="+ redirecturi+"&state="+state;
-	// (String)session.getAttribute("state"); 
-	%>
-                <a href="<%=apiurl %>" class="btn_my"> <span title="내 예약">MY</span> </a>
+                <a href="http://localhost:8080/login/myreservation" class="btn_my"> <span title="내 예약">MY</span> </a>
             </header>
         </div>
         <hr>

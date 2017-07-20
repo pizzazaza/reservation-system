@@ -52,6 +52,25 @@ $(document).ready(function(){
 		});
 	});
 	
+	var $size_bk = $('.bk_more');
+	var $txt_more_btn = $('.bk_more ._open');
+	var $txt_close_btn = $('.bk_more ._close');
+	var $txt_board = $('.store_details close3');
+	console.log($txt_close_btn);
+	$txt_more_btn.on('click', function(){
+		console.log("@#$@#$");
+		event.preventDefault();
+		$(this).css('display','block');
+		$size_bk.find('_close').css('display','none');
+	});
+	
+	$txt_close_btn.on('click', function(){
+		event.preventDefault();
+		console.log("DSFDS");
+		$(this).css('display','block');
+		$size_bk.find('_open').css('display', 'none');
+	});
+	
 	var animateFunc = (function(){
 		
 		var pre_b = $('.btn_prev');
