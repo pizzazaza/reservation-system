@@ -1,12 +1,6 @@
 package kr.or.connect.reservation.controller;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.connect.reservation.service.DetailService;
+import kr.or.connect.reservation.service.ReservationService;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 
@@ -30,6 +25,9 @@ public class DetailController {
 
 	@Autowired
 	DetailService detailService;
+	@Autowired
+	ReservationService reservationService;
+	
 	
 	//@RequestMapping(path="/?product={id}" ,method = RequestMethod.GET, produces="text/plain; charset=UTF-8")
 	@GetMapping("/product_id/{id}")
@@ -142,5 +140,27 @@ public class DetailController {
 		jsonObj.put("state", value);
 		
 		return jsonObj.toJSONString();
+	}
+	
+	@RequestMapping(path="/reserve")
+	public String reserveProduct(){
+		
+		return "/reserve";
+	}
+	
+	
+	@RequestMapping("/reserve/product_id/{id}")
+	public String addReservation(@PathVariable Integer id ,HttpServletRequest request){
+		Map<String, Object> productInfo = reservationService.loadProductInfo(id);
+		List<Map<String, Object>> priceInfo = reservationService.loadProductPriceInfo(id);
+		Map<String, Object> imageInfo = reservationService.loadProductImgInfo(id);
+		System.out.println(productInfo.keySet());
+		imageInfo.put("imgUrl",  "/imgLoading/"+ imageInfo.get("imgUrl"));
+		request.setAttribute("productInfo", productInfo);
+		request.setAttribute("priceInfo", priceInfo);
+		request.setAttribute("imageInfo", imageInfo);
+		
+ 		
+		return "reserve";
 	}
 }

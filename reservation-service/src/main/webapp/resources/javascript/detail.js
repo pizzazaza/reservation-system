@@ -52,24 +52,30 @@ $(document).ready(function(){
 		});
 	});
 	
-	var $size_bk = $('.bk_more');
-	var $txt_more_btn = $('.bk_more ._open');
-	var $txt_close_btn = $('.bk_more ._close');
-	var $txt_board = $('.store_details close3');
-	console.log($txt_close_btn);
-	$txt_more_btn.on('click', function(){
-		console.log("@#$@#$");
-		event.preventDefault();
-		$(this).css('display','block');
-		$size_bk.find('_close').css('display','none');
-	});
+	var close_px = "73px";
 	
-	$txt_close_btn.on('click', function(){
+	var $size_bk = $('.bk_more');
+	var $txt_more_btn = $size_bk.find('_open');
+	var txt_close_btn = $size_bk.find('_close');
+	var $txt_board = $('.store_details');
+	
+	
+	$size_bk.on('click', function(){
 		event.preventDefault();
-		console.log("DSFDS");
-		$(this).css('display','block');
-		$size_bk.find('_open').css('display', 'none');
+		if($(this).hasClass('_open')){
+			$(this).css('display','none');
+			$($size_bk[1]).css('display','block');
+			$txt_board.attr('class','store_details' );
+		}
+		else if($(this).hasClass('_close')){
+			$(this).css('display','none');
+			$($size_bk[0]).css('display', 'block');
+			$txt_board.attr('class','store_details close3' );
+		}
+		
 	});
+		
+		
 	
 	var animateFunc = (function(){
 		
@@ -140,9 +146,9 @@ $(document).ready(function(){
 			item.on('click', function(event){
 				event.preventDefault();
 				if($(this).hasClass('_detail')){
-					console.log("detail");
+					
 					if(!$(this).hasClass('active')){
-						var path = $(this).find('_path').context;
+						
 						
 						location.attr('class', 'detail_location hide');
 						areaWrap.attr('class', 'detail_area_wrap');
@@ -152,9 +158,9 @@ $(document).ready(function(){
 					}
 				}
 				else if($(this).hasClass('_path')){
-					console.log("path");
+					
 					if(!$(this).hasClass('active')){
-						var detail = $('.item').find('_detail');
+						
 						
 						location.attr('class', 'detail_location');
 						areaWrap.attr('class', 'detail_area_wrap hide');
@@ -197,10 +203,13 @@ $(document).ready(function(){
 	
 	var reservationProcess = (function(){
 	
-		var bkBtn = $('.bk_btn');
-	
+		var bk_btn = $('.bk_btn');
+		
+		
+		
 		function bindEvent(){
-			bkBtn.on('click',function(){
+			
+			bk_btn.on('click',function(){
 				var id = $('.visual_img').data('product');
 				
 				$.ajax({
@@ -211,14 +220,16 @@ $(document).ready(function(){
 						console.log(err);
 					},
 					success : function(data){
-						//console.log(data);
+						
+						data = JSON.parse(data);
 						//reserve 
-						if(state === 0){
+						
+						if(data.state === 0){
 							
 							alert("예매 기간이 아닙니다.");
 						}
-						else if(state === 1){
-							location.href="/resources/html/reservation.html";
+						else if(data.state === 1){
+							location.href="/detail/reserve/product_id/"+id;
 						}
 					}
 				});

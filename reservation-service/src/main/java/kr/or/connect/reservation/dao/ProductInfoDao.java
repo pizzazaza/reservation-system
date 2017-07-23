@@ -1,6 +1,7 @@
 package kr.or.connect.reservation.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -47,4 +48,38 @@ public class ProductInfoDao {
 			 return null;
 		 }
 	}
+	
+	public Map<String, Object> selectProductInfoByProductId(Integer id){
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		try{
+			return jdbc.queryForMap(ProductSqls.SELECT_PRODUCT_DETAIL_INFO_BY_PRODUCT_ID, params);
+		}catch(EmptyResultDataAccessException e){
+			return null;
+		}
+				
+	}
+	
+	public List<Map<String, Object>> selectProductPriceByProductId(Integer id){
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		try{
+			return jdbc.queryForList(ProductSqls.SELECT_PRODUCT_PRICE_BY_PRODUCT_ID, params);
+		}catch(EmptyResultDataAccessException e){
+			return null;
+		}
+				
+	}
+	
+	public Map<String, Object> selectProductPosterByProductId(Integer id){
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		try{
+			return jdbc.queryForMap(ProductSqls.SELECT_PRODUCT_POSTER_IMAGE_BY_PRODUCT_ID, params);
+		}catch(EmptyResultDataAccessException e){
+			return null;
+		}
+				
+	}
+	
 }

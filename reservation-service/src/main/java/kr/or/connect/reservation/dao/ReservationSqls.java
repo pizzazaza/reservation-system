@@ -37,6 +37,7 @@ public class ReservationSqls {
 			+ "from product pro, display_info dis "
 			+ "where pro.id =:id AND pro.id = dis.product_id ";
 	
+	
 	final static public String SELECT_RESERVATION_USER_COMMENT_USER_INFO_BY_PRODUCT_ID = ""
 			+ "select id, user_id "
 			+ "from reservation_user_comment "

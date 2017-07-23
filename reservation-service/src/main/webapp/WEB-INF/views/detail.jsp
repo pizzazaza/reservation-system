@@ -67,8 +67,14 @@
                                		<%
                                			List<Map<String, Object>> imageList = (List<Map<String, Object>>)request.getAttribute("imgeList");
                             			Map<String, Object> infoMap = (Map<String, Object>)request.getAttribute("infoMap");
-                            			
-                            			
+                            			String display;
+                            			if(imageList.size() != 1) {
+                            				display = "block";
+                            			}
+                            			else{
+                            				display = "none";
+                            			}
+                            				
                             			for(Map<String, Object> image : imageList){
                                		%>
                                     <li class="item" style="width: 414px;"> <img alt="" class="img_thumb" src="<%=image.get("imgUrl") %>"> <span class="img_bg"></span>
@@ -88,7 +94,10 @@
                                   
                                 </ul>
                             </div>
-                            <div class="prev">
+                         	<%
+                         		
+                         	%>
+                            <div class="prev" style="display:<%=display %>" >
                                 <div class="prev_inn">
                                     <a href="#" class="btn_prev" title="이전">
                                         <!-- [D] 첫 이미지 이면 off 클래스 추가 -->
@@ -96,19 +105,20 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="nxt">
+                            <div class="nxt" style="display:<%=display %>">
                                 <div class="nxt_inn">
                                     <a href="#" class="btn_nxt" title="다음">
                                         <i class="spr_book2 ico_arr6_rt"></i>
                                     </a>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                     <div class="group_btn_goto">
                     	
                         <a class="btn_goto_home" title="홈페이지" href="<%=infoMap.get("homepage") %>" target="siteUrl"> <i class="fn fn-home1"></i> </a>
-                        <a class="btn_goto_tel" title="전화" href="<%=infoMap.get("tel")%>"> <i class="fn fn-call1"></i> </a>
+                        <a class="btn_goto_tel" title="전화" href="tel:<%=infoMap.get("tel")%>"> <i class="fn fn-call1"></i> </a>
 						<a class="btn_goto_mail" title="이메일" href="<%=infoMap.get("email")%>"> <i class="fn fn-mail1"></i> </a>
                         <a href="#" class="btn_goto_path" title="길찾기"> <i class="fn fn-path-find1"></i> </a>
                         <a href="#" class="fn fn-share1 naver-splugin btn_goto_share" title="공유하기"></a>
