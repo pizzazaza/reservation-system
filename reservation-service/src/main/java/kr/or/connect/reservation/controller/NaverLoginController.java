@@ -10,12 +10,14 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.json.XML;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,25 +28,34 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import kr.or.connect.reservation.service.UserInfoService;
+
 
 
 @Controller
+@PropertySource("classpath:/application.properties")
 @RequestMapping("/login")
 public class NaverLoginController {
-	private static final String userProfileUrl = "https://apis.naver.com/nidlogin/nid/getUserProfile.xml";
-	
-	private static final String clientId = "DF3BoH18ghOxA2D0C7Ao";
-	private static final String ClientSecret = "UZCuTcoU70";
+	@Value("${spring.datasource.user-profile-url}")
+	private String userProfileUrl;
+	@Value("${spring.datasource.redirect-uri}")
+	private String redirecturi;
+	@Value("${spring.datasource.client-id}")
+	private String clientId;
+	@Value("${spring.datasource.client-secret}")
+	private String ClientSecret;
+	@Autowired
+	UserInfoService userInfoService;
 	
 	@GetMapping("/myreservation")
 	public String requestLogin( HttpServletRequest request){
-		final String redirecturi = "http%3A%2F%2Flocalhost%3A8080%2Flogin%2Fcallback";
+		
 		//encodeURIComponent('http://localhost:8080/login/callback')
 		//final String callbackUrl = "http://127.0.0.1:8080/callback";
 		
 		HttpSession session = request.getSession();
 		
-		String login = (String)session.getAttribute("LoginInfo");
+		Map<String, Object> login = (Map<String, Object>)session.getAttribute("LoginInfo");
 		if(login != null){
 			//내부값 확인 추가 
 			System.out.println("됨?? "+login);
@@ -72,7 +83,8 @@ public class NaverLoginController {
 				+ clientId+"&client_secret="+ ClientSecret + "&grant_type=authorization_code" + "&state=" + state + "&code=" + code;
 		 String data = getHtml(tokenRequerUrl, null);
 		
-		
+		 Map<String, Object> sessionMap;
+		 
 		 Map<String, String> dataMap = JSONStringToMap(data);
 		 String accessToken = dataMap.get("access_token");
 		 String tokenType = dataMap.get("token_type"); 
@@ -87,8 +99,15 @@ public class NaverLoginController {
 		 System.out.println(resultMap.keySet());
 		 //JSONObject jsonObj = new JSONObject(dataMap);
 		 HttpSession session = request.getSession();
+	
+		 sessionMap = userInfoService.loadUserPhone(userMap.get("email"));
 		 
-		 session.setAttribute("LoginInfo", userMap.get("email"));
+		 sessionMap.put("email",userMap.get("email"));
+		 sessionMap.put("name",userMap.get("name"));
+		 
+		 
+		 System.out.println(sessionMap.keySet());
+		 session.setAttribute("LoginInfo", sessionMap);
 		 
 		 //jsonObj.
 		 return "myreservation";

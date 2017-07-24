@@ -1,10 +1,12 @@
 package kr.or.connect.reservation.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -142,11 +144,7 @@ public class DetailController {
 		return jsonObj.toJSONString();
 	}
 	
-	@RequestMapping(path="/reserve")
-	public String reserveProduct(){
-		
-		return "/reserve";
-	}
+
 	
 	
 	@RequestMapping("/reserve/product_id/{id}")
@@ -154,12 +152,21 @@ public class DetailController {
 		Map<String, Object> productInfo = reservationService.loadProductInfo(id);
 		List<Map<String, Object>> priceInfo = reservationService.loadProductPriceInfo(id);
 		Map<String, Object> imageInfo = reservationService.loadProductImgInfo(id);
+		HttpSession session = request.getSession();
+		Map<String, Object> loginInfo = (Map<String, Object>)session.getAttribute("LoginInfo");
+		System.out.println("SDFFSDFSDFSDF" + loginInfo);
 		System.out.println(productInfo.keySet());
 		imageInfo.put("imgUrl",  "/imgLoading/"+ imageInfo.get("imgUrl"));
 		request.setAttribute("productInfo", productInfo);
 		request.setAttribute("priceInfo", priceInfo);
 		request.setAttribute("imageInfo", imageInfo);
-		
+		if(loginInfo == null){
+       		loginInfo = new HashMap<String, Object>();
+       		loginInfo.put("name","이름");
+       		loginInfo.put("email","email");
+       		loginInfo.put("tel","phone number");
+       	}
+		request.setAttribute("LoginInfo", loginInfo);
  		
 		return "reserve";
 	}

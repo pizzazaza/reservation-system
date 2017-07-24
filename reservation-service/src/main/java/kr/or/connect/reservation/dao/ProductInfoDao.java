@@ -6,13 +6,14 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ProductInfoDao {
-	 
+
 	private NamedParameterJdbcTemplate jdbc; // sql 을 실행하기 위해 사용되는 객체
 		
 	public ProductInfoDao(DataSource dataSource){
