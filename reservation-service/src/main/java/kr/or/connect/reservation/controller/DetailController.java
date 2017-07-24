@@ -74,19 +74,24 @@ public class DetailController {
 		}
 		request.setAttribute("productComment",commentList);
 		request.setAttribute("productId", (Integer)id);
-	
-		
+		if(scoreAndCount == null)
+			System.out.println("null");
+		else{
+			System.out.println(commentList);
+			
+			System.out.println(commentList.isEmpty());
+		}
 		//
 		
 		return "detail";
 	}
 	
-	@RequestMapping(path="/commentmore/{id}/offset/{offset}" ,method = RequestMethod.GET, produces="text/plain; charset=UTF-8")
-	@ResponseBody
-	public String loadMoreComment(@PathVariable Integer id, @PathVariable Integer offset,  HttpServletRequest request){
+	@RequestMapping(path="/review/product/{id}/offset/{ofs}" ,method = RequestMethod.GET, produces="text/plain; charset=UTF-8")
+	public String loadMoreComment(@PathVariable Integer id, @PathVariable Integer ofs, HttpServletRequest request){
+		Map<String, Object> scoreAndCount = detailService.loadProductScoreAndCount(id);
 		
-		List<Map<String, Object>> commentList = detailService.loadProductCommentList(id, offset); //
-		
+		List<Map<String, Object>> commentList = detailService.loadProductCommentList(id, ofs, 100); //
+		Map<String, Object> infoMap = detailService.loadProductETCInfo(id);
 		if(commentList != null){
 			for(Map<String, Object> comment : commentList){
 				Map<String, Object> imgUrl = detailService.loadProductCommentImageList((Integer)comment.get("id"));
@@ -97,29 +102,14 @@ public class DetailController {
 					comment.put("count",  count.get("count") );
 				
 				}
-				
-						
 			}
 		}
+		request.setAttribute("scoreAndCount", scoreAndCount);
+		request.setAttribute("productComment", commentList);
+		request.setAttribute("infoMap", infoMap);
 		
-		Map<String, Object> productName = detailService.loadProductName(id);
-		
-		JSONObject jsonObj = new JSONObject();
-		
-  
-    	JSONArray jsonArray = new JSONArray();
-    	for( Map<String, Object> comment : commentList ) {
-    		
-			comment.put("create_date", comment.get("create_date").toString());
-		}
-		for( Map<String, Object> comment : commentList ) {
-			jsonArray.add( comment );
-		}
-		
-		jsonObj.put("productName" , productName.get("name"));
-    	jsonObj.put("commentList", jsonArray.toJSONString());
     
-    	return jsonObj.toJSONString();
+    	return "review";
 	}
 	
 	@RequestMapping(path="/reservationattempt/{id}" ,method = RequestMethod.GET, produces="text/plain; charset=UTF-8")

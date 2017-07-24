@@ -244,8 +244,6 @@ $(document).ready(function(){
 				
 					$('.pink').text(data.count+"개");
 					
-					//count 그려주기
-					
 					if(offset == 0)
 						productLoading.changeActiveCategory(c_id);
 					
@@ -253,11 +251,8 @@ $(document).ready(function(){
 						productLoading.changeCategoryProduct(data.products);
 					else
 						productLoading.moreCategoryProduct(data.products);
-					//product remove
-					//product 그려주고 
 				}
 			});
-			//count change
 		}
 		
 		function changeCategoryProduct(productList){

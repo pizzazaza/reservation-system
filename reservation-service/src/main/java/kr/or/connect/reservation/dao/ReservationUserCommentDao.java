@@ -29,6 +29,22 @@ public class ReservationUserCommentDao {
 		params.put("id", id);
 		params.put("ofs", ofs);
 		
+		params.put("lim", 3);
+		
+		try{
+			return jdbc.queryForList(ReservationSqls.SELECT_USER_COMMENT_LIST_BY_PRODUCT_ID, params);
+		}catch(Exception e){
+			return null;
+		}
+	}
+	
+	public List<Map<String, Object>> selectUserCommentByProductId(Integer id, Integer ofs, Integer lim){
+		Map<String, Object> params = new HashMap<>();
+		params.put("id", id);
+		params.put("ofs", ofs);
+		
+		params.put("lim", lim);
+		
 		try{
 			return jdbc.queryForList(ReservationSqls.SELECT_USER_COMMENT_LIST_BY_PRODUCT_ID, params);
 		}catch(Exception e){

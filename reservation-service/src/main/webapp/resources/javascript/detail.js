@@ -9,48 +9,13 @@ $(document).ready(function(){
 
 	$more_btn.on('click', function(event){
 		event.preventDefault();
-		var offset=$('.list_item').length;
+		//var offset=$('.list_item').length;
 		var id = $('.visual_img').data('product');
-	
-		$.ajax({
-			type : "GET",
-			url : "/detail/commentmore/"+id+"/offset/"+offset,
-			dataType : "json",
-			error : function(err){
-				console.log(err);
-			},
-			success : function(data){
-				
-				var commentList = JSON.parse(data.commentList);
-				var $ulEle = $('.list_short_review');
-				
-				$.each(commentList, function(key, comment){
-					
-					comment.create_date = (comment.create_date).substring(0,10);
-					var liEle =' <li class="list_item">'+ 
-                                    '<div>'+
-                                        '<div class="review_area no_img">'+
-                                        	
-                                            '<h4 class="resoc_name">'+data.productName+'</h4>'+
-                                            '<p class="review">{{comment}}</p>'+
-                                        '</div>'+
-                                        '<div class="info_area">'+
-                                            '<div class="review_info"> <span class="grade">{{score}}</span> <span class="name">{{nickname}}</span> <span class="date">{{create_date}} 방문</span> </div>'+
-                                        '</div>'+
-                                    '</div>'+
-                                '</li>';
-					
-					var liEle = $(liEle);
-					var template = Handlebars.compile(liEle[0].outerHTML); 
-					var html = template(comment);
-					
-					$ulEle.append(html);
-				
-				});
+		location.href = "/detail/review/product/"+id+"/offset/0"; 
 		
-			}
-		});
 	});
+	
+	
 	
 	var close_px = "73px";
 	
@@ -242,5 +207,100 @@ $(document).ready(function(){
 		
 	reservationProcess.bindEvent();
 	
+	var review_loading = (function(){
+		var liEleImg =
+			 '<li class="list_item">'+
+                '<div>'+
+                 	'<div class="review_area">'+
+                '<div class="thumb_area">'+
+                	'<a href="#pop_up_layer" class="thumb" title="이미지 크게 보기"> <img width="90" height="90" class="img_vertical_top" src="<%=productComment.get(i).get("imgUrl")%>" alt="리뷰이미지"> </a> <span class="img_count"><%=productComment.get(i).get("count") %></span>'+                                                
+            	'<!-- pop up layer -->'+
+            	
+				'<!--  -->'+
+				'</div>'+
+                        '<h4 class="resoc_name"><%=infoMap.get("name") %></h4>'+
+                        '<p class="review"><%=productComment.get(i).get("comment") %></p>'+
+                	'</div>'+
+                '<div class="info_area">'+
+                        '<div class="review_info"> '+
+                        	'<span class="grade"><%=productComment.get(i).get("score")%></span> '+
+                        	'<span class="name"><%=productComment.get(i).get("nickname")%></span> '+
+                        	'<span class="date"><%=(productComment.get(i).get("create_date").toString()).substring(0,10)%> 방문</span>'+ 
+                       	'</div>'+
+                    '</div>'+
+                '</div>'+
+            '</li>';
+		var liEle =
+			 '<li class="list_item">'+
+               '<div>'+
+                	'<div class="review_area no_img">'+
+                       '<h4 class="resoc_name"><%=infoMap.get("name") %></h4>'+
+                       '<p class="review"><%=productComment.get(i).get("comment") %></p>'+
+               	'</div>'+
+               '<div class="info_area">'+
+                       '<div class="review_info"> '+
+                       	'<span class="grade"><%=productComment.get(i).get("score")%></span> '+
+                       	'<span class="name"><%=productComment.get(i).get("nickname")%></span> '+
+                       	'<span class="date"><%=(productComment.get(i).get("create_date").toString()).substring(0,10)%> 방문</span>'+ 
+                      	'</div>'+
+                   '</div>'+
+               '</div>'+
+           '</li>';
+		function bindEvent(){
+			$(document).scroll(function() {
+				var maxHeight = $(document).height();
+				var currentScroll = $(window).scrollTop() + $(window).height();
+				
+				if(maxHeight <= currentScroll){
+					var id = $('.visual_img').data('product');
+					var offset=$('.list_item').length;
+					review_loading.scroll_down_bottom(offset, id);
+				}
+			});
+		}
+		
+		function initModule(){
+			review_loading.bindEvent();
+		}
+		function scroll_down_bottom(id, ofs){
+			$.ajax({
+				type : "GET",
+				url : "/detail/commentmore/"+id+"/offset/"+ofs,
+				dataType : "json",
+				error : function(err){
+					console.log(err);
+				},
+				success : function(data){
+					more_product_review(data);
+				}
+					
+			});
+		}
+		function more_product_review(data){
+			var reviewList = JSON.parse(data);
+			var ulEle = $('.list_short_review');
+			
+			var cou = 0;
+			reviewList = JSON.parse(reviewList);
+			
+			$.each(reviewList, function(key, review){
+				
+					
+				var li = $(liEle);
+				var template = Handlebars.compile(liEle[0].outerHTML); 
+				var html = template(product);
+				
+				$(ulEle[cou%2]).append(html);
+				cou++;
+			});
+		}
+		
+		return {
+			scroll_down_bottom : scroll_down_bottom,
+			more_product_review : more_product_review,
+			bindEvent : bindEvent,
+			initModule : initModule
+		}
+	}());
 	
 });

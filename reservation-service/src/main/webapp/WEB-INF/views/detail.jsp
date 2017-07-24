@@ -146,48 +146,38 @@
                     </div>
                 </div>
                 <div class="section_btn"> <button type="button" class="bk_btn"> <i class="fn fn-nbooking-calender2"></i> <span>예매하기</span> </button> </div>
-                <div class="section_review_list">
+               	
+               	 <% 
+
+              	Map<String, Object> scoreAndCount = (Map<String, Object>)request.getAttribute("scoreAndCount"); 
+              	if((Long)scoreAndCount.get("count") > 0){	
+	               	BigDecimal bd = (BigDecimal)scoreAndCount.get("score");
+	               	DecimalFormat format = new DecimalFormat(".#");
+	                String str = format.format(bd);
+              	
+              	%>
+               	<div class="section_review_list">
                     <div class="review_box">
                         <h3 class="title_h3">예매자 한줄평</h3>
                         <div class="short_review_area">
                             <div class="grade_area">
-                            <% 
-
-                            	Map<String, Object> scoreAndCount = (Map<String, Object>)request.getAttribute("scoreAndCount"); 
-                            	BigDecimal bd = (BigDecimal)scoreAndCount.get("score");
-                            	DecimalFormat format = new DecimalFormat(".#");
-	                            String str = format.format(bd);
-                            	if(scoreAndCount != null){
-                            %>
-                             <!-- [D] 별점 graph_value는 퍼센트 환산하여 width 값을 넣어줌 -->
-                                <span class="graph_mask"> <em class="graph_value" style="width: 84%;"></em> </span>
+                                <!-- [D] 별점 graph_value는 퍼센트 환산하여 width 값을 넣어줌 -->
+                                <% Double starScore = (Double)(bd.doubleValue()*100/5.0); %>
+                                <span class="graph_mask"> <em class="graph_value" style="width:<%=starScore%>%;"></em> </span>
                                 <strong class="text_value"> <span><%=str %></span> <em class="total">5.0</em> </strong>
                                 <span class="join_count"><em class="green"><%=scoreAndCount.get("count")%>건</em> 등록</span>
-                               
-                               <%
-                               } 
-                               	
-                            	else{
-                               %>
-                                <span class="graph_mask"> <em class="graph_value" style="width: 84%;"></em> </span>
-                                <strong class="text_value"> <span>0</span> <em class="total">5.0</em> </strong>
-                                <span class="join_count"><em class="green">0건</em> 등록</span>
-                               <%
-                               }
-								%>
-                            	
                             </div>
                             <ul class="list_short_review">
                             <%  
                             List<Map<String, Object>> productComment = (List<Map<String, Object>>)request.getAttribute("productComment");
+                           
                             	for(int i = 0; i < productComment.size(); i++){
                             %>
+                            
                                 <li class="list_item">
                                     <div>
-                                 		 <% 
-                                          
+                                    <% 
                                           	if(productComment.get(i).containsKey("imgUrl")){ 
-                                          		
                                           %>
                                         <div class="review_area">
                                             <div class="thumb_area">
@@ -196,35 +186,45 @@
                                             	
 												<!--  -->
                                             </div>
-                                            <%}
-                                            	else{
-                                            	
+                                            <%
+                                            }
+                                            else{
                                             %>
-                                              <div class="review_area no_img">
-			                                    
+                                     	<div class="review_area no_img">
 			                                <%
-			                                	} 
-			                                %>      
-                                            
-                                            
-                                            <h4 class="resoc_name"><%=infoMap.get("name") %></h4>
+			                                } 
+			                                %> 
+			                                <h4 class="resoc_name"><%=infoMap.get("name") %></h4>
                                             <p class="review"><%=productComment.get(i).get("comment") %></p>
-                                        </div>
-                                        <div class="info_area">
-                                            <div class="review_info"> <span class="grade"><%=productComment.get(i).get("score")%></span> <span class="name"><%=productComment.get(i).get("nickname")%></span> <span class="date"><%=(productComment.get(i).get("create_date").toString()).substring(0,10)%> 방문</span> </div>
+                                    	</div>
+                                    <div class="info_area">
+                                            <div class="review_info"> 
+                                            	<span class="grade"><%=productComment.get(i).get("score")%></span> 
+                                            	<span class="name"><%=productComment.get(i).get("nickname")%></span> 
+                                            	<span class="date"><%=(productComment.get(i).get("create_date").toString()).substring(0,10)%> 방문</span> 
+                                           	</div>
                                         </div>
                                     </div>
                                 </li>
                             <%
-                             }
+                        	}
                             %>
-                                
                             </ul>
                         </div>
                         <p class="guide"> <i class="spr_book2 ico_bell"></i> <span>네이버 예약을 통해 실제 방문한 이용자가 남긴 평가입니다.</span> </p>
                     </div>
+                    <%
+                    if((Long)scoreAndCount.get("count") > 3){
+                    	
+                    %>
                     <a class="btn_review_more" href="#"> <span>예매자 한줄평 더보기</span> <i class="fn fn-forward1"></i> </a>
+                    <%
+                    }
+                    %>
                 </div>
+             	<%
+             	}
+             	%>
                 <div class="section_info_tab">
                     <!-- [D] tab 선택 시 anchor에 active 추가 -->
                     <ul class="info_tab_lst">
@@ -263,11 +263,8 @@
                     </div>
                     <!-- [D] 오시는길 외 다른 탭 선택 시 detail_location에 hide 추가 -->
                     <div class="detail_location hide">
-                    	<div id="LocationMap" style="border:1px solid #000; width:370px; height:370px; margin:20px;"></div>
-						
-                               
-                              </div>
-                           
+                    	<div class="box_store_info no_topline">	
+                    		<div id="LocationMap" style="border:1px solid #000; width:370px; height:370px; margin:20px;"> </div>
                             <h3 class="store_name"><%=infoMap.get("name") %></h3>
                             <div class="store_info">
                                 <div class="store_addr_wrap">
@@ -287,12 +284,13 @@
                                     </ul>
                                 </div>
                             </div>
+                       
 							<!-- [D] 모바일 브라우저에서 접근 시 column2 추가와 btn_navigation 요소 추가 -->
                             <div class="bottom_common_path column2">
                                 <a href="#" class="btn_path"> <i class="fn fn-path-find2"></i> <span>길찾기</span> </a>
-								<a hewf="#" class="btn_navigation before"> <i class="fn fn-navigation2"></i> <span>내비게이션</span> </a>
+								<a href="#" class="btn_navigation before"> <i class="fn fn-navigation2"></i> <span>내비게이션</span> </a>
                             </div>
-                        </div>
+                     	</div>
                     </div>
                 </div>
             </div>

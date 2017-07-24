@@ -48,7 +48,7 @@ public class ReservationSqls {
 			+ "select  comm.id, comm.user_id, comm.score, u.nickname, comm.create_date, comm.comment "
 			+ "from reservation_user_comment comm, users u " 
 			+ "where product_id =:id AND comm.user_id = u.id " 
-			+ "limit 3 offset :ofs";
+			+ "limit :lim offset :ofs";
 
 	
 	final static public String SELECT_USER_COMMENT_IMAGELIST_BY_PRODUCT_ID = ""

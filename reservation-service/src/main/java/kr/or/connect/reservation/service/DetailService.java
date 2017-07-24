@@ -45,6 +45,11 @@ public class DetailService {
 	}
 
 	@Transactional(readOnly = true)
+	public List<Map<String, Object>> loadProductCommentList(Integer id, Integer ofs, Integer lim){
+		return reservationUserCommentDao.selectUserCommentByProductId(id, ofs, lim);
+	}
+	
+	@Transactional(readOnly = true)
 	public Map<String, Object> loadProductScoreAndCount(Integer id){
 		return reservationUserCommentDao.selectCommentCountAndScore(id);
 	}
