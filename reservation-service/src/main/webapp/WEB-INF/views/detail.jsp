@@ -18,13 +18,13 @@
     <title>네이버 예약</title>
     <link href="/resources/css/style.css" rel="stylesheet">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="/resources/node_modules/jquery-lazyload/jquery.lazyload.js"></script>
 	<script src="/resources/node_modules/handlebars/dist/handlebars.js"></script>
 	<script src="/resources/javascript/detail.js"></script>
 	<script src="http://openapi.map.naver.com/openapi/v2/maps.js?clientId=xMV6FTZSMFyAC80Axml0"></script>
 	<script src="/resources/javascript/naverMap.js"></script>
+	
 
-	
-	
 </head>
 
 <body>
@@ -254,7 +254,7 @@
                                     </li>
                                     <li class="detail_info_lst"> <strong class="in_tit">[공연정보]</strong>
                                         <ul class="in_img_group">
-                                            <li class="in_img_lst"> <img alt="" class="img_thumb" data-lazy-image="https://ssl.phinf.net/naverbooking/20170131_255/1485825099482NmYMe_JPEG/%B0%F8%BF%AC%C1%A4%BA%B8.jpg?type=a1000"> </li>
+                                            <li class="in_img_lst"> <img alt="" class="img_thumb" data-original="https://ssl.phinf.net/naverbooking/20170131_255/1485825099482NmYMe_JPEG/%B0%F8%BF%AC%C1%A4%BA%B8.jpg?type=a1000"> </li>
                                         </ul>
                                     </li>
                                 </ul>

@@ -82,7 +82,7 @@ public class DetailController {
 			System.out.println(commentList.isEmpty());
 		}
 		//
-		
+		System.out.println("$@#$#@#@$");
 		return "detail";
 	}
 	

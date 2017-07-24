@@ -4,6 +4,8 @@
 
 $(document).ready(function(){
 	
+
+	
 	
 	var $more_btn = $('.btn_review_more');
 
@@ -207,6 +209,9 @@ $(document).ready(function(){
 		
 	reservationProcess.bindEvent();
 	
+	
+	
+	
 	var review_loading = (function(){
 		var liEleImg =
 			 '<li class="list_item">'+
@@ -302,5 +307,6 @@ $(document).ready(function(){
 			initModule : initModule
 		}
 	}());
-	
+
+	$("img.img_thumb").lazyload()
 });
